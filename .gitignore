@@ -35,6 +35,7 @@ dist/
 build/
 .cache/
 *.tsbuildinfo
+next-env.d.ts
 .vercel/
 npm-debug.log*
 yarn-debug.log*
