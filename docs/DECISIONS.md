@@ -31,7 +31,7 @@ Status: `ditetapkan` = keputusan eksplisit pengguna. `diasumsikan` = asumsi tekn
 
 ## Parameter awal yang belum ditetapkan
 
-Parameter berikut dinyatakan dapat dikonfigurasi di `docs/ARCHITECTURE.md`. Ambang sampel kecil telah diberi default konservatif (K-02); tiga lainnya belum memiliki nilai awal dan harus ditentukan sebelum atau saat implementasi:
+Parameter berikut dinyatakan dapat dikonfigurasi di `docs/ARCHITECTURE.md`. Ambang sampel kecil telah ditetapkan (K-02, default 30); tiga lainnya belum memiliki nilai awal dan harus ditentukan sebelum atau saat implementasi:
 
 - Latensi maksimum pengamatan SL untuk status `verified`
 - Toleransi cross-check risiko (connector vs perhitungan sendiri)
@@ -57,12 +57,12 @@ Default: `Asia/Jakarta` (WIB, UTC+7) (K-01, ditetapkan), dapat diubah ke zona la
 
 ## Keputusan dari audit 2026-10-10
 
-Keputusan berikut ditetapkan oleh audit dokumentasi agar Tahap B tidak terblokir. K-01 dan K-04 telah dikonfirmasi pengguna (`ditetapkan`); K-02, K-03, K-05 masih `diasumsikan` sebagai default konservatif sampai dikonfirmasi.
+Keputusan berikut ditetapkan oleh audit dokumentasi agar Tahap B tidak terblokir. Semua K-01..K-05 telah dikonfirmasi pengguna (`ditetapkan`).
 
 | ID | Keputusan | Alasan / catatan | Status |
 |---|---|---|---|
 | K-01 | Zona waktu default `Asia/Jakarta` (WIB, UTC+7) untuk `profiles.timezone` dan `evaluation_periods.timezone` | Zona lokal pengguna (bahasa Indonesia, broker Exness); dapat diganti di Settings. Waktu deal tetap disimpan UTC; zona ini hanya untuk batas periode dan tampilan | ditetapkan |
-| K-02 | `small_sample_threshold` default `30` | Ambang konvensional "sampel kecil" (n < 30); peringatan muncul di bawah ambang ini; dapat dikonfigurasi per pengguna | diasumsikan |
-| K-03 | `Strategy` = entitas opsional buatan pengguna untuk melabeli `Setup` (nama, deskripsi, aktif); `setups.strategy_id` nullable; tidak dibuat otomatis, tidak wajib, tidak memengaruhi P/L atau grouping | Mengisi gap: `strategies` ada di DATA_MODEL tapi tidak di MASTER_SPEC §2; paling tidak-invasif | diasumsikan |
+| K-02 | `small_sample_threshold` default `30` | Ambang konvensional "sampel kecil" (n < 30); peringatan muncul di bawah ambang ini; dapat dikonfigurasi per pengguna | ditetapkan |
+| K-03 | `Strategy` = entitas opsional buatan pengguna untuk melabeli `Setup` (nama, deskripsi, aktif); `setups.strategy_id` nullable; tidak dibuat otomatis, tidak wajib, tidak memengaruhi P/L atau grouping | Mengisi gap: `strategies` ada di DATA_MODEL tapi tidak di MASTER_SPEC §2; paling tidak-invasif | ditetapkan |
 | K-04 | Onboarding single-user: satu pengguna V1 dibootstrap sekali via Supabase Auth admin API (server-side, service-role key per A-05), email + password; sign-up publik dimatikan; pengguna tambahan dibuat cara yang sama | Sesuai D-06; tidak ada alur sign-up publik di UI | ditetapkan |
-| K-05 | Kondisi berhenti kritis (D-08): eksekusi mandiri berhenti dan meminta persetujuan pengguna jika (1) gerbang kualitas gagal pada ketepatan data/keamanan (RLS, invarian alokasi, rekonsiliasi tak teratasi); (2) operasi akan menyebabkan kehilangan data irreversibel; (3) secret terdeteksi di browser bundle/repo/log; (4) upaya deploy produksi atau migrasi destruktif (D-09); (5) sync/derivasi gagal berulang tanpa pemulihan otomatis; (6) penyimpangan dari MASTER_SPEC yang mengubah semantik perhitungan finansial tanpa keputusan eksplisit | Elaborasi D-08; konservatif = berhenti pada risiko data/keamanan/irreversibilitas | diasumsikan |
+| K-05 | Kondisi berhenti kritis (D-08): eksekusi mandiri berhenti dan meminta persetujuan pengguna jika (1) gerbang kualitas gagal pada ketepatan data/keamanan (RLS, invarian alokasi, rekonsiliasi tak teratasi); (2) operasi akan menyebabkan kehilangan data irreversibel; (3) secret terdeteksi di browser bundle/repo/log; (4) upaya deploy produksi atau migrasi destruktif (D-09); (5) sync/derivasi gagal berulang tanpa pemulihan otomatis; (6) penyimpangan dari MASTER_SPEC yang mengubah semantik perhitungan finansial tanpa keputusan eksplisit | Elaborasi D-08; konservatif = berhenti pada risiko data/keamanan/irreversibilitas | ditetapkan |
