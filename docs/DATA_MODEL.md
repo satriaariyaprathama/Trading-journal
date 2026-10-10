@@ -6,7 +6,7 @@ Diturunkan dari `docs/MASTER_SPEC.md` v0.1. Ini model logis; migration SQL belum
 
 | Tabel | Kolom inti | Kunci / constraint |
 |---|---|---|
-| `profiles` | timezone, default_period_id, small_sample_threshold | PK user_id |
+| `profiles` | timezone (default Asia/Jakarta, K-01), default_period_id, small_sample_threshold (default 30, K-02) | PK user_id |
 | `trading_accounts` | login, server, broker, account_type_label, currency, margin_mode, leverage, display_divisor (default 1), is_demo | UNIQUE(user_id, login, server) |
 | `connector_registrations` | account_id, token_prefix, token_hash, scopes, device_label, last_seen_at, revoked_at | UNIQUE(token_prefix); FK account |
 | `sync_state` | account_id, cursor_time_msc, cursor_ticket, overlap_days, last_success_at, history_earliest_seen, status | PK account_id |
@@ -41,8 +41,8 @@ Diturunkan dari `docs/MASTER_SPEC.md` v0.1. Ini model logis; migration SQL belum
 | `grouping_suggestions` | kind, rule_id, rule_version, evidence jsonb, confidence, status, fingerprint | UNIQUE(user_id, fingerprint) |
 | `grouping_suggestion_positions` | suggestion_id, position key | |
 | `grouping_events` | action, setup ids, before/after jsonb, actor, at | Append-only (tanpa UPDATE/DELETE) |
-| `strategies` | name, description, active | |
-| `evaluation_periods` | name, starts_on_local, ends_on_local, timezone, is_default | Tanpa FK ke setup |
+| `strategies` | name, description, active | Entitas opsional (K-03); `setups.strategy_id` nullable |
+| `evaluation_periods` | name, starts_on_local, ends_on_local, timezone (default Asia/Jakarta, K-01), is_default | Tanpa FK ke setup |
 
 ## Plan dan review
 

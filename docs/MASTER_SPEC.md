@@ -7,7 +7,7 @@ Asumsi teknis A-01..A-07 ada di `docs/DECISIONS.md` dan berstatus *diasumsikan* 
 
 - Jurnal dan analitik MT5 untuk **Forex dan Gold**. Bukan crypto/saham. **Bukan bot**: tidak mengirim, mengubah, atau menutup order.
 - Akun saat ini: Exness Cent, mata uang dilaporkan sebagai USD oleh pengguna (satuan sebenarnya dibaca dari MT5). Tipe akun lain mungkin ditambah. Tidak ada spesifikasi akun/simbol yang di-hardcode.
-- Single user di V1. Semua tabel tetap memiliki `user_id`. Sign-up publik dimatikan.
+- Single user di V1. Semua tabel tetap memiliki `user_id`. Sign-up publik dimatikan; pengguna tunggal dibootstrap via Supabase Auth admin API (K-04).
 - Akun demo belum ada. Pengujian awal memakai fixture berlabel `SYNTHETIC`.
 - Connector V1 berjalan di PC Windows (VPS tidak ditutup). Tidak boleh menyimpan atau mengirim password MT5.
 
@@ -19,8 +19,9 @@ Asumsi teknis A-01..A-07 ada di `docs/DECISIONS.md` dan berstatus *diasumsikan* 
 | Deal | Eksekusi nyata; sumber semua nilai uang |
 | Position | Siklus hidup volume pada satu simbol; dapat berisi banyak deal |
 | Setup | Satu ide trading buatan pengguna; satu atau lebih posisi |
+| Strategy | (Opsional) Label buatan pengguna untuk mengelompokkan Setup; tidak memengaruhi P/L atau grouping (K-03) |
 
-Satu deal bukan satu trade. `position_id` MT5 bukan satu setup.
+Satu deal bukan satu trade. `position_id` MT5 bukan satu setup. `strategy_id` pada Setup nullable (opsional).
 
 ## 3. Lapisan data
 
@@ -77,7 +78,7 @@ Status provenance: `verified`, `reconstructed`, `unknown`, dan opsional `user_de
 ## 8. Periode evaluasi
 
 - Periode ditentukan oleh **waktu entry pertama setup** (`opened_at` = min waktu buka posisi anggota). Setup terbuka masuk periode berdasarkan entry tetapi tidak masuk win rate.
-- Batas disimpan sebagai tanggal lokal + zona waktu (dikonfigurasi di Settings, belum ditetapkan), diterjemahkan ke instan UTC. Nilai kerja awal New Trading Plan: 1 September 2026 00:00 di zona yang dipilih. Waktu deal tetap UTC; offset server broker dicatat.
+- Batas disimpan sebagai tanggal lokal + zona waktu (default `Asia/Jakarta` (WIB, UTC+7) per K-01, dapat diubah di Settings), diterjemahkan ke instan UTC. Nilai kerja awal New Trading Plan: 1 September 2026 00:00 (ditafsirkan 00:00 Asia/Jakarta). Waktu deal tetap UTC; offset server broker dicatat.
 - Satu selector global dan satu fungsi query untuk Dashboard, Trade Journal, Analytics, Calendar & History. Merge lintas batas periode memicu peringatan.
 - Mengubah batas mengubah tampilan analitik, tidak mengubah review atau versi plan; perubahan batas dicatat.
 
