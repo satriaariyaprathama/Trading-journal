@@ -1,0 +1,67 @@
+# ============================================================
+# .gitignore — Trading Journal (MT5)
+# Utama: mencegah secret dan kredensial masuk ke source control.
+# Sesuai MASTER_SPEC §13: token/password/service-role key tidak boleh di-commit.
+# ============================================================
+
+# === Secrets & environment (prioritas tertinggi) ===
+.env
+.env.*
+!.env.example
+*.secret
+*.secrets
+*.key
+*.pem
+*.p12
+*.pfx
+*.cer
+*.crt
+secrets/
+**/credentials.json
+**/service-account*.json
+**/service_role*.txt
+**/connector_token*.txt
+
+# === Supabase (local CLI / temp) ===
+.supabase/
+supabase/.branches/
+supabase/.temp/
+
+# === Node / Next.js ===
+node_modules/
+.next/
+out/
+dist/
+build/
+.cache/
+*.tsbuildinfo
+.vercel/
+npm-debug.log*
+yarn-debug.log*
+pnpm-debug.log*
+
+# === MQL5 connector build artifacts ===
+*.ex5
+*.ex4
+*.mqh.bak
+
+# === Testing / coverage ===
+coverage/
+.nyc_output/
+
+# === OS / editor ===
+.DS_Store
+Thumbs.db
+desktop.ini
+ehthumbs.db
+$RECYCLE.BIN/
+*.swp
+*.swo
+*~
+.idea/
+.vscode/
+!.vscode/extensions.json
+
+# === Logs ===
+*.log
+logs/
